@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Typo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="app" class="typo">
+      <div v-if="screen === 'start'" class="typo__start">
+        <div class="typo__logo">Typo</div>
+        <button @click="start()" class="btn btn-success">Start game</button>
+      </div>
+      <div v-if="screen === 'queue'" class="typo__queue">
+        <div class="typo__waiting">
+          <div class="spinner-border spinner-border-sm" role="status">
+            <span class="sr-only">Loading</span>
+          </div>
+          <span>Waiting for someone to join...</span>
+        </div>
+      </div>
+      <div v-if="screen === 'countdown'" class="typo__countdown">
+        <span>{{ countdown }}</span>
+      </div>
+      <div v-if="screen === 'game'" class="typo__game">
+        <div class="typo__game__header">
+          <p class="typo__game__wpm typo__game__wpm--left">
+            <span>menu</span>
+          </p>
+          <p class="typo__game__wpm typo__game__wpm--right">
+            <span>0:{{ timeLeft }}</span>
+            <span>time</span>
+          </p>
+        </div>
+        <div class="typo__game__header typo__game__header--bottom">
+          <p class="typo__game__wpm typo__game__wpm--small typo__game__wpm--left typo__game__wpm--left--small">
+            <span>{{ yourWPM }} wpm</span>
+            <span>you</span>
+          </p>
+          <p class="typo__game__wpm typo__game__wpm--small typo__game__wpm--right typo__game__wpm--right--small">
+            <span>{{ opponentWPM }} wpm</span>
+            <span>opponent</span>
+          </p>
+        </div>
+        <div class="typo__game__words">
+          <p class="typo__game__word typo__game__word--no-size">
+            <span>{{ leftSide }}</span>
+            <span class="typo__game__word typo__game__word--error">{{ middle }}</span>
+            <span class="typo__game__word typo__game__word--blank">{{ rightSide }}</span>
+          </p>
+          <span class="typo__game__word--next">{{ nextWord }}</span>
+          <span class="typo__game__word--next-next">{{ nextNextWord }}</span>
+        </div>
+        <div class="typo__game__input">
+          <input v-model="word" :class="{ 'typo__game__word--error': middle }" ref="word" type="text" autofocus />
+        </div>
+      </div>
+      <div v-if="screen === 'over'" class="typo__over">
+        <span class="font-weight-bolder">Game Over</span>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/static/client.js"></script>
+  </body>
+</html>
